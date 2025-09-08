@@ -1,5 +1,6 @@
 let catagoryName = document.querySelector(".catagoryName");
 async function catagory() {
+ 
   let url = `https://openapi.programming-hero.com/api/categories`;
   let firstFetch = await fetch(url);
   let firstJson = await firstFetch.json();
@@ -12,19 +13,23 @@ async function catagory() {
     `;
     catagoryName.innerHTML += listName;
   });
+
 }
+
 
 let cardAll = document.querySelector(".cardAll");
 async function allPlants() {
+  manageSpinner(true)
   let plantUrl = `https://openapi.programming-hero.com/api/plants`;
   let plantFetch = await fetch(plantUrl);
   let plantjson = await plantFetch.json();
+
   plantjson.plants.forEach((plantSection) => {
     let plntCard = `
                           <div class="cardValue mb-4 rounded-xl  shadow-md bg-white h-[450px]">
                     <div class="w-full h-[200px] bg-gray-200 rounded-t-xl"><img class="h-full w-full" src="${plantSection.image}" alt=""></div>
                     <div class="p-4">
-                        <h3 class="text-lg font-bold nameTree">${plantSection.name}</h3>
+                        <h3 onclick=newCard(${plantSection.id}) class="text-lg font-bold nameTree">${plantSection.name}</h3>
                         <p class="text-gray-600 text-[12px] mt-1">
                             ${plantSection.description}
                         </p>
@@ -44,9 +49,11 @@ async function allPlants() {
 
     cardAll.innerHTML += plntCard;
   });
+  manageSpinner(false)
 }
 
 async function treename(id) {
+  manageSpinner(true)
   document.querySelectorAll(".newcls").forEach((clsAdd) => {
     clsAdd.classList.remove("active");
   });
@@ -58,9 +65,9 @@ async function treename(id) {
   secondjson.plants.forEach((allSection) => {
     let fullCard = `
                           <div class="cardValue mb-4 rounded-xl  shadow-md bg-white h-[450px]">
-                    <div class="w-full h-[200px] bg-gray-200 rounded-t-xl"><img class="h-full w-full" src="${allSection.image}" alt=""></div>
+                    <div class="w-full h-[200px] bg-gray-200 rounded-t-xl"><img class="h-full w-full object-cover" src="${allSection.image}" alt=""></div>
                     <div class="p-4">
-                        <h3 class="text-lg font-bold nameTree">${allSection.name}</h3>
+                        <h3 onclick="newCard(${allSection.id})" class="text-lg font-bold nameTree">${allSection.name}</h3>
                         <p class="text-gray-600 text-[12px] mt-1">
                             ${allSection.description}
                         </p>
@@ -83,6 +90,31 @@ async function treename(id) {
 
   let clickBtn = document.querySelector(`.singleTag${id}`);
   clickBtn.classList.add("active");
+   manageSpinner(false)
+}
+
+
+
+let modalCheckbox = document.querySelector("#my_modal_6");
+let modal=document.querySelector(".modal")
+async function newCard(num) {
+  let addUrl = `https://openapi.programming-hero.com/api/plant/${num}`;
+  let addFetch = await fetch(addUrl);
+  let addJson = await addFetch.json();
+  let card = `
+              <div class="modal-box">
+            <h3 class="text-lg font-bold">${addJson.plants.name}</h3>
+            <img src="${addJson.plants.image}" alt="" class="w-full h-[233px] object-cover">
+            <h2 class="py-4"><b>Caragor:</b> ${addJson.plants.category}</h2>
+            <h2><b>Price: </b>${addJson.plants.price}</h2>
+            <p><b>Descripction: </b>${addJson.plants.description}</p>
+            <div class="modal-action">
+                <label for="my_modal_6" class="btn">Close!</label>
+            </div>
+        </div>
+   `;
+   modal.innerHTML=card
+    modalCheckbox.checked = true;
 }
 
 let priceTag = document.querySelector(".priceTag");
@@ -94,7 +126,6 @@ cardAll.addEventListener("click", function (e) {
 
   let nameTree = cardValue.querySelector(".nameTree");
   let priceTree = cardValue.querySelector(".priceTree");
-
 
   if (e.target.classList.contains("addBtnClick")) {
     let moneyValu = document.querySelector(".moneyValu");
@@ -111,7 +142,7 @@ cardAll.addEventListener("click", function (e) {
         <button onclick="btnremover(this,${price})" class="removeBtn text-gray-400 hover:text-gray-600 transition-colors">❌</button>
       </div>
     `;
-
+    alert(`${nameTree.innerHTML} has been added to the card`);
     if (moneyValu) {
       moneyValu.insertAdjacentHTML("beforebegin", card);
     } else {
@@ -131,14 +162,11 @@ cardAll.addEventListener("click", function (e) {
       moneyValu.querySelector(".totalMain").innerText = `৳${mainprice}`;
     }
   }
-
 });
 
 function btnremover(button, prices) {
- 
-  
-  let parentCard = button.closest(".singleCard"); 
-  parentCard.remove(); 
+  let parentCard = button.closest(".singleCard");
+  parentCard.remove();
 
   mainprice -= prices;
   let moneyValu = document.querySelector(".moneyValu");
@@ -146,6 +174,18 @@ function btnremover(button, prices) {
     moneyValu.querySelector(".totalMain").innerText = `৳${mainprice}`;
   }
 }
+
+
+function manageSpinner(status) {
+  if (status) {
+    document.getElementById("spinner").classList.remove("hidden");
+    document.querySelector(".cardAll").classList.add("hidden");
+  } else {
+    document.getElementById("spinner").classList.add("hidden");
+    document.querySelector(".cardAll").classList.remove("hidden");
+  }
+}
+
 
 allPlants();
 catagory();
