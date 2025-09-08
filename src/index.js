@@ -87,43 +87,65 @@ async function treename(id) {
 
 let priceTag = document.querySelector(".priceTag");
 let mainprice = 0;
+
+
 cardAll.addEventListener("click", function (e) {
   let cardValue = e.target.closest(".cardValue");
+
   let nameTree = cardValue.querySelector(".nameTree");
   let priceTree = cardValue.querySelector(".priceTree");
+
+
   if (e.target.classList.contains("addBtnClick")) {
+    let moneyValu = document.querySelector(".moneyValu");
+
+    let price = parseInt(priceTree.innerHTML.replace("৳", ""));
+    mainprice += price;
+
     let card = `
-         
-                    <div class="bg-gray-50 rounded-lg p-4 mb-4 flex justify-between items-center shadow-sm">
-                        <div>
-                            <p class="text-lg font-medium text-gray-700">${nameTree.innerHTML}</p>
-                            <p class="text-sm text-gray-500">${priceTree.innerHTML} × 1</p>
-                        </div>
-                        <button class="removeBtn text-gray-400 hover:text-gray-600 transition-colors">
-                          ❌
-                        </button>
-                    </div>
-      `;
-    priceTag.innerHTML += card;
+      <div class="bg-gray-50 rounded-lg p-4 mb-4 flex justify-between items-center shadow-sm singleCard" data-price="${price}">
+        <div>
+          <p class="text-lg font-medium text-gray-700">${nameTree.innerHTML}</p>
+          <p class="text-sm text-gray-500">${priceTree.innerHTML} × 1</p>
+        </div>
+        <button onclick="btnremover(this,${price})" class="removeBtn text-gray-400 hover:text-gray-600 transition-colors">❌</button>
+      </div>
+    `;
+
+    if (moneyValu) {
+      moneyValu.insertAdjacentHTML("beforebegin", card);
+    } else {
+      priceTag.insertAdjacentHTML("beforeend", card);
+    }
+
+    let total = `
+      <div class="moneyValu flex justify-between items-center pt-4 border-t border-gray-200">
+        <p class="text-lg font-semibold text-gray-800">Total:</p>
+        <p class="text-lg font-bold text-gray-900 totalMain">৳${mainprice}</p>
+      </div>
+    `;
+
+    if (!moneyValu) {
+      priceTag.insertAdjacentHTML("beforeend", total);
+    } else {
+      moneyValu.querySelector(".totalMain").innerText = `৳${mainprice}`;
+    }
   }
 
-  let price = priceTree.innerHTML;
-  mainprice += parseInt(price.replace("৳", ""));
-  let total = `
-            
-                  <div class="moneyValu flex justify-between items-center pt-4 border-t border-gray-200">
-                      <p class="text-lg font-semibold text-gray-800">Total:</p>
-                      <p class="text-lg font-bold text-gray-900 totalMain">৳${mainprice}</p>
-                  </div>
-  `;
-  let moneyValu = document.querySelector(".moneyValu");
-  if (!moneyValu) {
-    priceTag.innerHTML += total;
-  } else {
-      console.log(moneyValu.querySelector(".totalMain"));
-      moneyValu.querySelector(".totalMain").innerText = `৳${mainprice}`
-  }
 });
+
+function btnremover(button, prices) {
+ 
+  
+  let parentCard = button.closest(".singleCard"); 
+  parentCard.remove(); 
+
+  mainprice -= prices;
+  let moneyValu = document.querySelector(".moneyValu");
+  if (moneyValu) {
+    moneyValu.querySelector(".totalMain").innerText = `৳${mainprice}`;
+  }
+}
 
 allPlants();
 catagory();
