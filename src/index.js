@@ -1,0 +1,129 @@
+let catagoryName = document.querySelector(".catagoryName");
+async function catagory() {
+  let url = `https://openapi.programming-hero.com/api/categories`;
+  let firstFetch = await fetch(url);
+  let firstJson = await firstFetch.json();
+  firstJson.categories.forEach((names) => {
+    let listName = `
+             <p onclick="treename(${names.id})" class="px-3 py-2 rounded-md text-gray-800 newcls singleTag${names.id} hover:bg-green-100 cursor-pointer">
+                ${names.category_name}
+            </p>
+        
+    `;
+    catagoryName.innerHTML += listName;
+  });
+}
+
+let cardAll = document.querySelector(".cardAll");
+async function allPlants() {
+  let plantUrl = `https://openapi.programming-hero.com/api/plants`;
+  let plantFetch = await fetch(plantUrl);
+  let plantjson = await plantFetch.json();
+  plantjson.plants.forEach((plantSection) => {
+    let plntCard = `
+                          <div class="cardValue mb-4 rounded-xl  shadow-md bg-white h-[450px]">
+                    <div class="w-full h-[200px] bg-gray-200 rounded-t-xl"><img class="h-full w-full" src="${plantSection.image}" alt=""></div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold nameTree">${plantSection.name}</h3>
+                        <p class="text-gray-600 text-[12px] mt-1">
+                            ${plantSection.description}
+                        </p>
+                        <div class="flex items-center justify-between mt-3">
+                            <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs font-medium">
+                                ${plantSection.category}</span>
+                            <span class="text-gray-800 font-semibold priceTree">৳${plantSection.price}</span>
+                        </div>
+                        <button 
+                            class="addBtnClick w-full mt-4 bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+        `;
+
+    cardAll.innerHTML += plntCard;
+  });
+}
+
+async function treename(id) {
+  document.querySelectorAll(".newcls").forEach((clsAdd) => {
+    clsAdd.classList.remove("active");
+  });
+
+  cardAll.innerHTML = "";
+  let secondUrl = `https://openapi.programming-hero.com/api/category/${id}`;
+  let secondFetch = await fetch(secondUrl);
+  let secondjson = await secondFetch.json();
+  secondjson.plants.forEach((allSection) => {
+    let fullCard = `
+                          <div class="cardValue mb-4 rounded-xl  shadow-md bg-white h-[450px]">
+                    <div class="w-full h-[200px] bg-gray-200 rounded-t-xl"><img class="h-full w-full" src="${allSection.image}" alt=""></div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-bold nameTree">${allSection.name}</h3>
+                        <p class="text-gray-600 text-[12px] mt-1">
+                            ${allSection.description}
+                        </p>
+                        <div class="flex items-center justify-between mt-3">
+                            <span class="px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs font-medium">
+                                ${allSection.category}</span>
+                            <span class="text-gray-800 font-semibold priceTree">৳${allSection.price}</span>
+                        </div>
+                        <button onclick="showClick()"
+                            class="addBtnClick w-full mt-4 bg-green-600 text-white py-2 rounded-full hover:bg-green-700 transition">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+        `;
+
+    cardAll.innerHTML += fullCard;
+  });
+
+  let clickBtn = document.querySelector(`.singleTag${id}`);
+  clickBtn.classList.add("active");
+}
+
+let priceTag = document.querySelector(".priceTag");
+let mainprice = 0;
+cardAll.addEventListener("click", function (e) {
+  let cardValue = e.target.closest(".cardValue");
+  let nameTree = cardValue.querySelector(".nameTree");
+  let priceTree = cardValue.querySelector(".priceTree");
+  if (e.target.classList.contains("addBtnClick")) {
+    let card = `
+         
+                    <div class="bg-gray-50 rounded-lg p-4 mb-4 flex justify-between items-center shadow-sm">
+                        <div>
+                            <p class="text-lg font-medium text-gray-700">${nameTree.innerHTML}</p>
+                            <p class="text-sm text-gray-500">${priceTree.innerHTML} × 1</p>
+                        </div>
+                        <button class="removeBtn text-gray-400 hover:text-gray-600 transition-colors">
+                          ❌
+                        </button>
+                    </div>
+      `;
+    priceTag.innerHTML += card;
+  }
+
+  let price = priceTree.innerHTML;
+  mainprice += parseInt(price.replace("৳", ""));
+  let total = `
+            
+                  <div class="moneyValu flex justify-between items-center pt-4 border-t border-gray-200">
+                      <p class="text-lg font-semibold text-gray-800">Total:</p>
+                      <p class="text-lg font-bold text-gray-900 totalMain">৳${mainprice}</p>
+                  </div>
+  `;
+  let moneyValu = document.querySelector(".moneyValu");
+  if (!moneyValu) {
+    priceTag.innerHTML += total;
+  } else {
+      console.log(moneyValu.querySelector(".totalMain"));
+      moneyValu.querySelector(".totalMain").innerText = `৳${mainprice}`
+  }
+});
+
+allPlants();
+catagory();
