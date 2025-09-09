@@ -41,12 +41,13 @@
             </div>
         </div>
     </section>
-      
-    <section id="spinner" class="flex items-center justify-center bg-[#F0FDF4]  hidden"><span class="loading loading-spinner text-error"></span></section>
 
-    <section class="bg-[#F0FDF4]">
+    <section id="spinner" class="flex items-center justify-center bg-[#F0FDF4]  hidden"><span
+            class="loading loading-spinner text-error"></span></section>
+
+    <section class="bg-[#F0FDF4] relative">
         <h1 class="text-center pt-20 text-[35px] font-bold">Chose your Trees</h1>
-        <div class="flex gap-5 p-[20px_20px]">
+        <div class="flex gap-5 p-[20px_20px] max-[730px]:grid max-[730]:grid-cols-2">
 
             <div class="w-80 bg-green-50 p-4 rounded-md">
                 <h2 class="text-lg font-bold mb-4">Categories</h2>
@@ -89,7 +90,7 @@
 
 
 
-            <div class="grid grid-cols-3 space-x-4 w-full cardAll">
+            <div class="grid grid-cols-3 space-x-4 w-full max-[1200px]:grid-cols-2 max-[1000px]:grid-cols-1 cardAll">
                 <!-- <div class=" rounded-xl  shadow-md bg-white h-fit">
                     <div class="w-full bg-gray-200 rounded-t-xl"><img src="../img/hero-leaf1.png" alt=""></div>
                     <div class="p-4">
@@ -143,10 +144,9 @@
     <!-- The button to open modal -->
     <!-- <label for="my_modal_6" class="btn">open modal</label> -->
 
-    <!-- Put this part before </body>
     <input type="checkbox" id="my_modal_6" class="modal-toggle" />
     <div class="modal" role="dialog">
-         <div class="modal-box">
+        <!-- <div class="modal-box">
             <h3 class="text-lg font-bold">Hello!</h3>
             <img src="../img/hero-leaf1.png" alt="" class="w-full h-233px object-cover">
             <h2 class="py-4"><b>Caragor:</b> This modal works with a hidden checkbox!</h2>
@@ -156,7 +156,94 @@
             <div class="modal-action">
                 <label for="my_modal_6" class="btn">Close!</label>
             </div>
-        </div> -->
+        </div>  -->
+    </div>
+
+    <section class="bg-green-50 py-16 relative">
+        <h2 class="text-2xl font-bold text-gray-800 text-center mb-8">About the Campaign</h2>
+        <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
+
+            <div class="rounded-2xl overflow-hidden shadow-md">
+                <img src="../img/about.png" alt="Tree Plant" class="w-full h-full object-cover">
+            </div>
+
+            <div>
+
+                <p class="text-gray-600 leading-relaxed mb-4">
+                    Green Earth is a global tree plantation initiative dedicated to fighting
+                    climate change. Since our start, we've planted over 500,000 trees worldwide.
+                    By joining our campaign, you help restore forests, create habitats for wildlife,
+                    and combat global warming.
+                </p>
+                <ul class="list-disc list-inside text-gray-700 space-y-2">
+                    <li>Restoration of natural habitats</li>
+                    <li>Improvement of air quality</li>
+                    <li>Support for local communities</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="bg-green-100 py-16">
+        <div class="max-w-6xl mx-auto px-6">
+            <h2 class="text-center text-2xl font-bold text-gray-800 mb-10">Our Impact</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+
+                <div class="bg-white p-8 rounded-lg shadow text-center">
+                    <h3 class="text-3xl font-bold text-green-600">500K+</h3>
+                    <p class="text-gray-600 mt-2">Trees Planted</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow text-center">
+                    <h3 class="text-3xl font-bold text-green-600">120+</h3>
+                    <p class="text-gray-600 mt-2">Communities Involved</p>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow text-center">
+                    <h3 class="text-3xl font-bold text-green-600">30+</h3>
+                    <p class="text-gray-600 mt-2">Countries Reached</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="bg-green-700 py-16">
+        <div class="max-w-md mx-auto bg-green-800 p-8 rounded-lg shadow-lg">
+            <h2 class="text-center text-xl font-bold text-white mb-6">Plant a Tree Today</h2>
+
+            <form action="#" class="space-y-4">
+                <input type="text" placeholder="Your Name"
+                    class="w-full p-3 rounded-md border border-gray-300 bg-amber-50 outline-0" />
+
+
+                <input type="email" placeholder="Your Email Address"
+                    class="w-full p-3 rounded-md border border-gray-300 bg-amber-50 outline-0" />
+
+                <!-- Dropdown -->
+                <select class="w-full p-3 rounded-md border border-gray-300 bg-amber-50 outline-0">
+                    <option>Number of Trees</option>
+                    <option>1 Tree</option>
+                    <option>5 Trees</option>
+                    <option>10 Trees</option>
+                    <option>50 Trees</option>
+                </select>
+
+                <!-- Button -->
+                <button type="submit"
+                    class="w-full bg-yellow-400 text-green-800 font-semibold py-3 rounded-full hover:bg-yellow-500 transition">
+                    Donate Now
+                </button>
+            </form>
+        </div>
+
+
+    </footer>
+    <div class="bg-[#2a522a] py-4 text-white text-center text-sm font-light">
+        © 2025 Green Earth. All Rights Reserved.
     </div>
 
     <script src="index.js"></script>

@@ -27,7 +27,7 @@ async function allPlants() {
   plantjson.plants.forEach((plantSection) => {
     let plntCard = `
                           <div class="cardValue mb-4 rounded-xl  shadow-md bg-white h-[450px]">
-                    <div class="w-full h-[200px] bg-gray-200 rounded-t-xl"><img class="h-full w-full" src="${plantSection.image}" alt=""></div>
+                    <div class="w-full h-[200px] bg-gray-200 rounded-t-xl"><img class="h-full w-full object-cover" src="${plantSection.image}" alt=""></div>
                     <div class="p-4">
                         <h3 onclick=newCard(${plantSection.id}) class="text-lg font-bold nameTree">${plantSection.name}</h3>
                         <p class="text-gray-600 text-[12px] mt-1">
